@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Notification from './components/Notification';
 import Blog from './components/Blog';
 import Login from './components/Login';
 import Create from './components/Create';
@@ -6,6 +7,8 @@ import blogService from './services/blogs';
 import loginService from './services/login';
 
 const App = () => {
+  const [message, setMessage] = useState('');
+  const [msgIsError, setMsgIsError] = useState(false);
   const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -29,6 +32,22 @@ const App = () => {
     }
   }, []);
 
+  const successMessage = (text) => {
+    setMsgIsError(false);
+    setMessage(text);
+    setTimeout(() => {
+      setMessage('');
+    }, 3000);
+  };
+
+  const errorMessage = (text) => {
+    setMsgIsError(true);
+    setMessage(text);
+    setTimeout(() => {
+      setMessage('');
+    }, 3000);
+  };
+
   const handleLogin = async (event) => {
     event.preventDefault();
 
@@ -48,12 +67,19 @@ const App = () => {
       setUser(newUser);
       setUsername('');
       setPassword('');
+      successMessage(`Successfully logged in as ${newUser.username}`);
     } catch (error) {
-      console.error(error);
+      console.log({ error });
+      if (error.response.status === 401) {
+        errorMessage('Invalid username or password');
+      } else {
+        errorMessage('Connection error');
+      }
     }
   };
 
   const handleLogout = () => {
+    successMessage(`Successfully logged out ${user.username}`);
     window.localStorage.removeItem('loggedInBlogListUser');
     setUser(null);
   };
@@ -73,8 +99,10 @@ const App = () => {
       setTitle('');
       setAuthor('');
       setUrl('');
+      successMessage(`Successfully added ${response.title} to list!`);
     } catch (error) {
-      console.error(error);
+      console.log({ error });
+      errorMessage('Error adding blog to list!');
     }
   };
 
@@ -121,6 +149,7 @@ const App = () => {
 
   return (
     <div>
+      <Notification message={message} isError={msgIsError} />
       {user === null ? (
         loginForm()
       ) : (
