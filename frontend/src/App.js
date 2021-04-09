@@ -32,8 +32,18 @@ const App = () => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
   }, []);
 
-  return (
+  const blogList = () => (
     <div>
+      <h2>Blogs</h2>
+      {blogs.map((blog) => (
+        <Blog key={blog.id} blog={blog} />
+      ))}
+    </div>
+  );
+
+  const loginForm = () => (
+    <div>
+      <h2>Login</h2>
       <Login
         onLogin={handleLogin}
         username={username}
@@ -45,10 +55,19 @@ const App = () => {
           setPassword(event.target.value);
         }}
       />
-      <h2>blogs</h2>
-      {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} />
-      ))}
+    </div>
+  );
+
+  return (
+    <div>
+      {user === null ? (
+        loginForm()
+      ) : (
+        <div>
+          <p>Logged in as {user.name}</p>
+          {blogList()}
+        </div>
+      )}
     </div>
   );
 };
