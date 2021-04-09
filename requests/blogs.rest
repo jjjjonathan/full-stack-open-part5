@@ -1,0 +1,19 @@
+GET http://localhost:3004/api/blogs
+
+###
+
+POST http://localhost:3004/api/blogs
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpqampvbmF0aGFuIiwiaWQiOiI2MDZiYmIwMjZkNjhlZTQ1ZGRmMzFjOWYiLCJpYXQiOjE2MTc3NTk5ODh9.5QzQjqtnpGumssoxIzQWQUIA8qLsKA5Mi8CfFIvPk_Q
+
+{
+  "title": "Ginger",
+  "author": "personhood man",
+  "url": "http://example.com",
+  "likes": 489
+}
+
+###
+
+DELETE http://localhost:3004/api/blogs/606d10584eb2ff5afd6a0fd4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpqampvbmF0aGFuIiwiaWQiOiI2MDZiYmIwMjZkNjhlZTQ1ZGRmMzFjOWYiLCJpYXQiOjE2MTc3NTk5ODh9.5QzQjqtnpGumssoxIzQWQUIA8qLsKA5Mi8CfFIvPk_Q
