@@ -21,7 +21,7 @@ const Login = ({
           onChange={onUsernameChange}
         />
       </div>
-      <div style={{ display: 'block', marginTop: 10 }}>
+      <div style={{ marginTop: 10 }}>
         <label htmlFor="password" style={{ marginRight: 5 }}>
           Password:
         </label>
