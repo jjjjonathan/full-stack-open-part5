@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Notification from './components/Notification';
 import Blog from './components/Blog';
 import Login from './components/Login';
@@ -17,6 +17,8 @@ const App = () => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [url, setUrl] = useState('');
+
+  const newBlogRef = useRef();
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -89,6 +91,7 @@ const App = () => {
     event.preventDefault();
 
     try {
+      newBlogRef.current.toggleVisibility();
       const response = await blogService.create({
         title,
         author,
@@ -110,7 +113,7 @@ const App = () => {
   const mainPage = () => (
     <div>
       <h2>Blogs</h2>
-      <Togglable buttonLabel="Add new">
+      <Togglable buttonLabel="Add new" ref={newBlogRef}>
         <Create
           onSubmit={handleCreateSubmit}
           title={title}
