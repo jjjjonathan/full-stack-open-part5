@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import blogService from '../services/blogs';
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, onDelete, user }) => {
   const [visible, setVisible] = useState(false);
   const [likes, setLikes] = useState(blog.likes);
 
@@ -28,6 +28,14 @@ const Blog = ({ blog }) => {
     }
   };
 
+  const deleteButton = () => {
+    if (user.username === blog.user.username) {
+      return <button onClick={onDelete}>Delete</button>;
+    } else {
+      return null;
+    }
+  };
+
   return (
     <div style={{ border: '1px solid black', margin: 10, padding: 10 }}>
       <strong>{blog.title}</strong> by {blog.author}
@@ -43,7 +51,9 @@ const Blog = ({ blog }) => {
               Like
             </button>
           </li>
+          <li>User: {blog.user.name}</li>
         </ul>
+        {deleteButton()}
         <button onClick={toggleVisibility}>Hide details</button>
       </div>
     </div>
