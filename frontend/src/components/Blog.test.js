@@ -1,9 +1,11 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import Blog from './Blog';
 
-test('Blog renders title and author, but not its URL or likes by default', () => {
+let component;
+
+beforeEach(() => {
   const blog = {
     title: 'Living for what now?',
     author: 'Progressive Author',
@@ -23,8 +25,10 @@ test('Blog renders title and author, but not its URL or likes by default', () =>
     id: 54321,
   };
 
-  const component = render(<Blog blog={blog} user={user} />);
+  component = render(<Blog blog={blog} user={user} />);
+});
 
+test('Blog renders title and author, but not its URL or likes by default', () => {
   expect(component.container.querySelector('.blog')).toHaveTextContent(
     'Living for what now?'
   );
@@ -32,6 +36,14 @@ test('Blog renders title and author, but not its URL or likes by default', () =>
     'Progressive Author'
   );
   expect(component.container.querySelector('.blog div')).toHaveStyle(
+    'display: none'
+  );
+});
+
+test('URL and likes are shown when button clicked', () => {
+  const button = component.getByText('Show details');
+  fireEvent.click(button);
+  expect(component.container.querySelector('.blog div')).not.toHaveStyle(
     'display: none'
   );
 });
