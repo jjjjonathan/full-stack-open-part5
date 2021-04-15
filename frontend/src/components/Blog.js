@@ -37,7 +37,10 @@ const Blog = ({ blog, onDelete, user }) => {
   };
 
   return (
-    <div style={{ border: '1px solid black', margin: 10, padding: 10 }}>
+    <div
+      className="blog"
+      style={{ border: '1px solid black', margin: 10, padding: 10 }}
+    >
       <strong>{blog.title}</strong> by {blog.author}
       <button style={hideWhenVisible} onClick={toggleVisibility}>
         Show details
