@@ -75,7 +75,7 @@ describe('Blog app', function () {
       cy.get('ul').should('contain', 'Likes: 1');
     });
 
-    it.only('A blog can be deleted by the user who created it and not by another user', function () {
+    it('A blog can be deleted by the user who created it and not by another user', function () {
       cy.contains('Add new').click();
       cy.get('#title').type('The Book of Cypress');
       cy.get('#author').type('Alabaster Arqensaa');
@@ -113,6 +113,54 @@ describe('Blog app', function () {
 
       cy.contains('Show details').click();
       cy.get('div').should('not.contain', 'Delete');
+    });
+
+    it('blogs are ordered according to likes', () => {
+      cy.contains('Add new').click();
+      cy.get('#title').type('The Book of Cypress');
+      cy.get('#author').type('Alabaster Arqensaa');
+      cy.get('#url').type('example.com/cypress');
+      cy.contains('Add to list').click();
+
+      cy.contains('Add new').click();
+      cy.get('#title').type('The Book of Indian Food');
+      cy.get('#author').type('Anonymous');
+      cy.get('#url').type('example.com/india');
+      cy.contains('Add to list').click();
+      cy.contains('Anonymous').contains('Show details').click();
+      cy.contains('Anonymous')
+        .contains('Like')
+        .click()
+        .click()
+        .click()
+        .click()
+        .click()
+        .click()
+        .click()
+        .click()
+        .click()
+        .click()
+        .click()
+        .click();
+
+      cy.contains('Add new').click();
+      cy.get('#title').type(
+        'ALALALLALLALLLL LALALA LA LANNAND DNLANLD LNDLANLND LNDLAN'
+      );
+      cy.get('#author').type('JONEEEEE');
+      cy.get('#url').type('example.com/lalala');
+      cy.contains('Add to list').click();
+      cy.contains('JONEEEEE').contains('Show details').click();
+      cy.contains('JONEEEEE').contains('Like').click().click().click().click();
+
+      cy.reload();
+      cy.contains('JONEEEEE').contains('Show details').click();
+      cy.contains('Anonymous').contains('Show details').click();
+      cy.contains('Alabaster').contains('Show details').click();
+
+      cy.get('.blog').eq(0).should('contain', 'Anonymous');
+      cy.get('.blog').eq(1).should('contain', 'JONEEEEE');
+      cy.get('.blog').eq(2).should('contain', 'Alabaster');
     });
   });
 });
