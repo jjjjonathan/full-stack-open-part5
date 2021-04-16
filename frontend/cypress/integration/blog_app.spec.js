@@ -49,7 +49,7 @@ describe('Blog app', function () {
       });
     });
 
-    it.only('A blog can be created', function () {
+    it('A blog can be created', function () {
       cy.contains('Add new').click();
       cy.get('#title').type('The Book of Cypress');
       cy.get('#author').type('Alabaster Arqensaa');
@@ -60,6 +60,18 @@ describe('Blog app', function () {
         'contain',
         'The Book of Cypress by Alabaster Arqensaa'
       );
+    });
+
+    it.only('A blog can be liked', function () {
+      cy.contains('Add new').click();
+      cy.get('#title').type('The Book of Cypress');
+      cy.get('#author').type('Alabaster Arqensaa');
+      cy.get('#url').type('example.com/cypress');
+      cy.contains('Add to list').click();
+      cy.contains('Show details').click();
+      cy.contains('Like').click();
+
+      cy.get('ul').should('contain', 'Likes: 1');
     });
   });
 });
