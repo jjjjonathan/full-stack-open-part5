@@ -34,4 +34,32 @@ describe('Blog app', function () {
       cy.get('.message').should('have.css', 'color', 'rgb(255, 0, 0)');
     });
   });
+
+  describe('When logged in', function () {
+    beforeEach(function () {
+      cy.request('POST', 'http://localhost:3005/api/login', {
+        username: 'admin',
+        password: 'password',
+      }).then((response) => {
+        localStorage.setItem(
+          'loggedInBlogListUser',
+          JSON.stringify(response.body)
+        );
+        cy.visit('http://localhost:3000');
+      });
+    });
+
+    it.only('A blog can be created', function () {
+      cy.contains('Add new').click();
+      cy.get('#title').type('The Book of Cypress');
+      cy.get('#author').type('Alabaster Arqensaa');
+      cy.get('#url').type('example.com/cypress');
+      cy.contains('Add to list').click();
+
+      cy.get('div').should(
+        'contain',
+        'The Book of Cypress by Alabaster Arqensaa'
+      );
+    });
+  });
 });
