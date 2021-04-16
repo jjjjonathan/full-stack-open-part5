@@ -50,7 +50,11 @@ const Blog = ({ blog, onDelete, user }) => {
           <li>{blog.url}</li>
           <li>
             Likes: {likes}
-            <button onClick={handleLikeButton} key={blog.id}>
+            <button
+              onClick={handleLikeButton}
+              key={blog.id}
+              className="like-button"
+            >
               Like
             </button>
           </li>
